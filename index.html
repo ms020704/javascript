@@ -2,35 +2,22 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <title>자바스크립트</title>
+    <title>자바스크립트 학습 포트폴리오</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- FontAwesome for ppt icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
     <style>
-      @media (max-width: 600px) {
-        section,
-        .tab-content {
-          padding: 14px;
-          font-size: 0.95em;
-        }
-        .slider-wrap {
-          max-width: 100%;
-          height: 180px;
-        }
-        .game-board {
-          width: 120px;
-        }
-        .game-cell {
-          width: 40px;
-          height: 40px;
-        }
-      }
-
+      /* [기본, 반응형] */
       body {
         font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
         margin: 0;
         background: #f7f7f7;
         color: #222;
         line-height: 1.6;
-        transition: background 0.4s, color 0.4s;
+        transition: background 0.3s, color 0.3s;
       }
       header {
         background: linear-gradient(90deg, #4158d0, #c850c0 70%);
@@ -61,7 +48,7 @@
       }
       .about-info strong {
         font-size: 1.2em;
-        color: #4158d0;
+        color: #ffe082;
       }
       section {
         max-width: 700px;
@@ -73,10 +60,11 @@
         margin-bottom: 26px;
       }
       h2 {
-        font-size: 1.25em;
+        font-size: 1.22em;
         border-bottom: 1.5px solid #ececec;
         padding-bottom: 8px;
         margin-bottom: 14px;
+        color: #333;
       }
       .skills span {
         display: inline-block;
@@ -86,11 +74,12 @@
         border-radius: 20px;
         font-size: 1em;
         transition: background 0.3s;
+        color: #4158d0;
+        font-weight: 500;
       }
       .skills span:hover {
         background: #c850c020;
       }
-      /* [/타임라인] */
       .timeline {
         list-style: none;
         padding-left: 0;
@@ -100,6 +89,7 @@
         margin-bottom: 8px;
         position: relative;
         padding-left: 22px;
+        color: #414141;
       }
       .timeline li:before {
         content: '🔹';
@@ -109,8 +99,6 @@
         font-size: 0.9em;
         color: #4158d0;
       }
-
-      /* [탭/프로젝트] */
       .tabs {
         display: flex;
         border-bottom: 2px solid #eee;
@@ -125,12 +113,25 @@
         background: #fff;
         font-size: 1.08em;
         border-radius: 12px 12px 0 0;
+        color: #4158d0;
+        font-weight: 600;
         transition: background 0.3s, color 0.3s;
+        border-right: 1px solid #f1f1f1;
+        outline: none;
+      }
+      .tab-btn:last-child {
+        border-right: none;
       }
       .tab-btn.active {
         background: linear-gradient(90deg, #4158d0, #c850c0 70%);
         color: #fff;
         font-weight: bold;
+        border-bottom: 2px solid #fff;
+        box-shadow: 0 2px 8px #c850c033;
+      }
+      .tab-btn:hover:not(.active) {
+        background: #f4f6fc;
+        color: #c850c0;
       }
       .tab-content {
         max-width: 700px;
@@ -141,9 +142,49 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         display: none;
         animation: fadein 0.5s;
+        color: #222;
       }
       .tab-content.active {
         display: block;
+      }
+      @keyframes fadein {
+        0% {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        100% {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .project-desc {
+        color: #444;
+        margin-bottom: 12px;
+      }
+      .feature-list {
+        margin: 0 0 12px 0;
+        padding-left: 18px;
+      }
+      .feature-list li {
+        margin-bottom: 4px;
+      }
+      .code-box {
+        background: #222;
+        color: #fafafa;
+        font-family: 'Fira Mono', 'D2Coding', monospace;
+        font-size: 0.97em;
+        padding: 14px 14px 12px 14px;
+        border-radius: 7px;
+        margin: 10px 0 0 0;
+        white-space: pre-wrap;
+        word-break: break-all;
+        line-height: 1.75;
+        overflow-x: auto;
+      }
+      .code-title {
+        font-size: 1em;
+        color: #ffb84d;
+        margin: 9px 0 4px 0;
       }
       @keyframes fadein {
         0% {
@@ -166,8 +207,7 @@
       .feature-list li {
         margin-bottom: 4px;
       }
-
-      /* [투두리스트 스타일] */
+      /* 투두리스트 */
       #todo-list {
         padding-left: 0;
       }
@@ -182,6 +222,7 @@
         cursor: pointer;
         font-size: 1.04em;
         transition: background 0.2s;
+        color: #333;
       }
       .todo-list li.done {
         text-decoration: line-through;
@@ -197,7 +238,7 @@
         cursor: pointer;
         font-size: 0.95em;
       }
-      /* [캘린더] */
+      /* 캘린더 */
       .calendar {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
@@ -213,26 +254,19 @@
       .calendar-day {
         font-weight: bold;
         background: #eceaf6;
+        color: #4158d0;
       }
       .calendar-date.today {
         background: #c850c0;
         color: #fff;
       }
-      /* [날씨] */
-      .weather-box {
-        background: #f5f7fd;
-        padding: 14px;
-        border-radius: 8px;
-        margin: 14px 0 0 0;
-        text-align: center;
-      }
-      /* [명언/퀴즈/이미지 슬라이더 등 공통 스타일] */
+      /* 명언/퀴즈/이미지 슬라이더 등 공통 */
       .quote-block {
         font-size: 1.15em;
         margin: 18px 0;
         text-align: center;
       }
-      /* [입력폼/버튼 세련] */
+      /* 입력폼/버튼 */
       input,
       button,
       select,
@@ -244,28 +278,49 @@
         margin-top: 5px;
         margin-bottom: 6px;
         outline: none;
-        transition: border 0.25s;
+        transition: border 0.25s, color 0.3s;
       }
-      button {
-        background: linear-gradient(90deg, #4158d0, #c850c0 70%);
-        color: #fff;
-        border: none;
-      }
-      button:hover {
-        background: #2d3a4b;
-        color: #fff;
-      }
+      button,
       input[type='button'],
       input[type='submit'] {
         background: linear-gradient(90deg, #4158d0, #c850c0 70%);
-        color: #fff;
+        color: #fff !important;
+        border: none;
+        font-weight: 500;
       }
-      .darkmode {
-        position: fixed;
-        top: 20px;
-        right: 20px;
+      button:hover,
+      input[type='button']:hover,
+      input[type='submit']:hover {
+        background: #2d3a4b;
+        color: #fff !important;
       }
-      /* [다크모드] */
+      input[type='text'] {
+        color: #222;
+        background: #fff;
+      }
+      .slider-wrap {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+        height: 240px;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 12px;
+      }
+      .slider-img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+        display: none;
+      }
+      .slider-img.active {
+        display: block;
+      }
+      .slider-controls {
+        text-align: center;
+        margin-top: 10px;
+      }
+      /* 다크모드 */
       .darkmode {
         position: fixed;
         top: 20px;
@@ -297,14 +352,52 @@
       .dark-mode .timeline li:before {
         color: #ffe082;
       }
-      .dark-mode .tab-btn.active {
-        background: #393e46;
+      .dark-mode .tab-btn {
+        color: #eee;
       }
-      /* [접근성] */
+      .dark-mode .tab-btn.active {
+        background: #4158d0;
+        color: #fff;
+      }
+      .dark-mode h2,
+      .dark-mode label {
+        color: #ffe082;
+      }
+      .dark-mode .todo-list li {
+        color: #eee;
+        background: #2d3a4b;
+      }
+      .dark-mode .todo-list li.done {
+        background: #444;
+        color: #888;
+      }
+      .dark-mode .calendar-day {
+        background: #2d3a4b;
+        color: #ffe082;
+      }
+      .dark-mode .calendar-date {
+        background: #393e46;
+        color: #eee;
+      }
+      .dark-mode .calendar-date.today {
+        background: #c850c0;
+        color: #fff;
+      }
+      .dark-mode input[type='text'] {
+        background: #24272b;
+        color: #f7f7f7;
+      }
+      /* 접근성, 반응형 */
+      @media (max-width: 480px) {
+        .tab-btn {
+          padding: 14px 0;
+          font-size: 1.04em;
+        }
+      }
+
       label {
         font-weight: 500;
       }
-      /* [반응형] */
       @media (max-width: 700px) {
         section,
         .tab-content {
@@ -331,6 +424,10 @@
           width: 55px;
           height: 55px;
         }
+        .slider-wrap,
+        .slider-img {
+          height: 120px;
+        }
       }
       footer {
         text-align: center;
@@ -344,10 +441,37 @@
         text-decoration: none;
         font-size: 1.1em;
       }
+      .ppt-link {
+        display: inline-flex;
+        align-items: center;
+        background: #fff4eb;
+        color: #dd2727;
+        font-weight: 600;
+        border-radius: 6px;
+        padding: 6px 14px;
+        margin: 18px 0 0 0;
+        text-decoration: none;
+        border: 1px solid #ffc9a9;
+        box-shadow: 0 2px 6px #ffede4b0;
+        font-size: 1.08em;
+        transition: background 0.2s;
+      }
+      .ppt-link:hover {
+        background: #ffe3ce;
+      }
+      .ppt-link i {
+        margin-right: 6px;
+        font-size: 1.3em;
+      }
+      .ppt-caption {
+        font-size: 0.97em;
+        color: #999;
+        margin-top: 2px;
+      }
     </style>
   </head>
   <body>
-    <!-- [다크모드 토글 버튼] -->
+    <!-- 다크모드 토글 -->
     <button
       class="darkmode"
       aria-label="다크모드 전환"
@@ -355,8 +479,7 @@
     >
       🌙
     </button>
-
-    <!-- [헤더+프로필] -->
+    <!-- 헤더+프로필 -->
     <header>
       <img
         src="https://i.namu.wiki/i/7UI4BU655FGdRGXX1ElxOpvc_rRnZZe4RXV0jmGgke9A2Dt-pueGyCsHkbkDWb_3Jx3And7-2tsqG-lqNjyMZP5SXKHZsyicO0Y_k_eGQq-ieBk49P_K120p7jFKizeEPMWXCtBYBCMBVO4bBFvO5g.webp"
@@ -369,7 +492,9 @@
             웹 개발 학습페이지<br />
             <span style="color: #ffe082">🌱 JavaScript · React(예정)</span>
           </div>
-          <p>“웹 개발에 대한 학습과 이해가 목표입니다.”</p>
+          <p style="margin-bottom: 4px">
+            “웹 개발에 대한 학습과 이해가 목표입니다.”
+          </p>
         </div>
       </div>
       <p style="margin: 10px 0 0 0">
@@ -394,51 +519,58 @@
           >✍️ Portfolio</a
         >
       </div>
+      <!-- PPT 아이콘 링크(파일 추가 시 링크 수정!) -->
+      <a class="ppt-link" href="jpf.pdf" target="_blank" download>
+        <i class="fa-solid fa-file-powerpoint"></i> PPT 파일
+      </a>
+      <div class="ppt-caption"></div>
     </header>
 
     <section>
       <h2>👋 자기소개</h2>
-      <p>안녕하세요. 자바스크립트와 웹개발을 공부하고 있습니다.</p>
+      <p>
+        안녕하세요!
+        <b>프론트엔드 개발을 목표로 자바스크립트 기초와 실제 웹 기능 구현</b>을
+        직접 연습/구현하고 있습니다.<br />
+        아래 예제들은 <b>핵심 JS 문법을 내 손으로 써보는 과정</b>과,
+        <b>기본적인 웹 UI/UX까지 신경 써본 결과물</b>입니다.
+      </p>
     </section>
-
-    <!-- [기술스택] -->
+    <!-- 기술스택 -->
     <section>
       <h2>🛠️ 기술 스택</h2>
       <div class="skills">
         <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
-        <span>React (예정)</span><span>DOM</span> <span>로컬스토리지</span
-        ><span>Git/GitHub</span>
+        <span>React (예정)</span><span>DOM</span> <span>로컬스토리지</span>
+        <span>Git/GitHub</span>
       </div>
     </section>
-
-    <!-- [타임라인/학습 경로] -->
+    <!-- 타임라인 -->
     <section>
       <h2>📈 학습/경험 타임라인</h2>
       <ul class="timeline">
-        <li>2023.01 - HTML/CSS 기초 학습</li>
-        <li>2023.04 - JavaScript 기본/DOM 다루기</li>
-        <li>2023.07 - To-Do List 앱 개발</li>
-        <li>2024.02 - Git/GitHub 활용</li>
-        <li>2024.05 - 미니앱, API 연동(날씨) 프로젝트</li>
-        <li>2024.06 - React 입문 중</li>
+        <li>2025.03 - HTML 기초 학습</li>
+        <li>2025.04 - CSS 기초 학습</li>
+        <li>2025.05 - JavaScript 기본/DOM 다루기</li>
+        <li>2025.06 - 페이지 개발 시작</li>
+        <li>2025.06 - Git/GitHub 활용</li>
+        <li>2025.06 - 프로젝트 마무리</li>
+        <li>2025.06 - React 입문 중</li>
       </ul>
     </section>
-
-    <!-- [프로젝트 요약 & 탭 연결] -->
+    <!-- 프로젝트 요약 & 탭 연결 -->
     <section>
       <h2>💼 주요 프로젝트</h2>
       <ul>
-        <li>
-          <span class="project-link" data-tab="0">To-Do 리스트 앱</span>
-        </li>
+        <li><span class="project-link" data-tab="0">To-Do 리스트 앱</span></li>
         <li><span class="project-link" data-tab="1">랜덤 명언 생성기</span></li>
         <li><span class="project-link" data-tab="2">이미지 슬라이더</span></li>
         <li><span class="project-link" data-tab="3">간단 캘린더</span></li>
-        <li><span class="project-link" data-tab="4">날씨 조회 앱</span></li>
+        <li><span class="project-link" data-tab="4">간단 퀴즈</span></li>
       </ul>
     </section>
 
-    <!-- [프로젝트 탭 상세] -->
+    <!-- 프로젝트 상세 탭 -->
     <section>
       <div class="tabs" role="tablist">
         <button
@@ -487,23 +619,31 @@
       <div class="tab-content active" id="tab0" role="tabpanel">
         <h2>To-Do 리스트 앱</h2>
         <div class="project-desc">
-          <b>설명:</b> 할 일을 추가, 완료 체크, 삭제하는 간단한 To-Do List
-          웹앱입니다.<br />
-          <b>주요 기능:</b>
+          <b>설명:</b> 할 일 추가/삭제/완료 체크가 되는 나만의 할 일 앱.<br />
+          <b>활용한 주요 JS:</b>
           <ul class="feature-list">
-            <li>할 일 추가/삭제/완료 체크</li>
-            <li>로컬스토리지로 데이터 저장</li>
-            <li>완료시 줄긋기, 삭제 버튼</li>
+            <li><b>이벤트 위임</b> (li 클릭으로 done 토글)</li>
+            <li><b>로컬스토리지</b> 데이터 영속화</li>
+            <li>버튼 이벤트 중첩방지(<code>e.stopPropagation()</code>)</li>
           </ul>
-          <b>사용 기술:</b> HTML, CSS, JavaScript(LocalStorage)<br />
-          <b>느낀 점/문제 해결:</b>
-          <span style="color: #666"
-            >처음엔 할 일을 새로고침하면 사라졌으나, <b>로컬스토리지</b>를
-            배우고 데이터가 유지되도록 개선하였습니다.<br />삭제 버튼 클릭 시
-            부모 li 이벤트와 충돌하는 문제를 <b>e.stopPropagation()</b>으로
-            해결함.</span
-          >
+          <b>핵심 코드:</b>
+          <div class="code-box">
+            // 할 일 렌더링/저장 function renderTodos() { todoList.innerHTML =
+            ''; todos.forEach((todo, i) => { const li =
+            document.createElement('li'); li.textContent = todo.text;
+            li.className = todo.done ? 'done' : ''; li.onclick = () => {
+            todos[i].done = !todos[i].done; saveTodos(); } const del =
+            document.createElement('button'); del.textContent = '삭제';
+            del.onclick = (e) => { e.stopPropagation(); todos.splice(i, 1);
+            saveTodos(); } li.appendChild(del); todoList.appendChild(li); }); }
+          </div>
         </div>
+        <div class="learned" style="color: #9b51e0; margin: 8px 0 0 0">
+          📝 <b>처음엔 로컬스토리지/이벤트 위임이 어려웠지만,</b> 콘솔로그와
+          문서 검색을 반복하며 JS로 데이터 저장과 동작 흐름을 이해하게 됐습니다.
+        </div>
+
+        <!-- 실제 입력폼/리스트는 기존과 동일! -->
         <form id="todo-form">
           <label for="todo-input">할 일 입력</label><br />
           <input
@@ -516,62 +656,64 @@
           <button type="submit">추가</button>
         </form>
         <ul id="todo-list" class="todo-list"></ul>
-        <details style="margin-top: 10px">
-          <summary>▶️ 주요 구현 코드 (펼치기)</summary>
-          <pre
-            style="
-              background: #eee;
-              padding: 9px;
-              border-radius: 7px;
-              font-size: 0.95em;
-            "
-          >
-// 할 일 추가/삭제/완료 체크, 로컬스토리지 저장
-document.getElementById('todo-form').onsubmit = function (e) { ... }
-          </pre>
-        </details>
       </div>
 
-      <!-- 랜덤 명언 상세 -->
+      <!-- 랜덤 명언 생성기 -->
       <div class="tab-content" id="tab1" role="tabpanel">
         <h2>랜덤 명언 생성기</h2>
         <div class="project-desc">
-          <b>설명:</b> 클릭할 때마다 명언이 랜덤하게 나오는 웹앱입니다.<br />
-          <b>주요 기능:</b>
+          <b>설명:</b> Array와 Math.random을 직접 활용해 랜덤 텍스트를 만듦.<br />
+          <b>활용한 주요 JS:</b>
           <ul class="feature-list">
-            <li>명언 랜덤 출력</li>
-            <li>새로운 명언 보기 버튼</li>
+            <li>
+              <b>Array 인덱스 랜덤 추출</b> (<code>Math.random()</code>,
+              <code>Math.floor()</code>)
+            </li>
+            <li><b>DOM 조작</b> (id 기반 텍스트 변경)</li>
           </ul>
-          <b>사용 기술:</b> HTML, CSS, JavaScript<br />
-          <b>느낀 점/문제 해결:</b>
-          <span style="color: #666"
-            >Array에서 랜덤값 추출, 버튼 클릭 시 동적으로 텍스트가 바뀌도록
-            구현했습니다.</span
-          >
+          <b>핵심 코드:</b>
+          <div class="code-box">
+            function showRandomQuote() { const idx = Math.floor(Math.random() *
+            quotes.length); document.getElementById('quote-text').textContent =
+            quotes[idx]; }
+          </div>
         </div>
+        <div class="learned" style="color: #2d9cdb; margin: 8px 0 0 0">
+          💡 <b>Math.random, Array 사용법</b>을 익히면서 직접 DOM에 랜덤
+          텍스트를 띄우는 재미와 원리를 느꼈습니다.
+        </div>
+
         <blockquote id="quote-text" class="quote-block"></blockquote>
         <button onclick="showRandomQuote()" aria-label="새 명언 보기">
           다른 명언 보기
         </button>
       </div>
 
-      <!-- 이미지 슬라이더 상세 -->
+      <!-- 이미지 슬라이더 -->
       <div class="tab-content" id="tab2" role="tabpanel">
         <h2>이미지 슬라이더</h2>
         <div class="project-desc">
-          <b>설명:</b> 여러 이미지를 넘기며 볼 수 있는 이미지 슬라이더입니다.<br />
-          <b>주요 기능:</b>
+          <b>설명:</b> n개의 이미지를 다음/이전으로 넘길 수 있는 슬라이더.<br />
+          <b>활용한 주요 JS:</b>
           <ul class="feature-list">
-            <li>이전/다음 이미지 버튼</li>
-            <li>현재 이미지 활성화 표시</li>
+            <li><b>배열·index 활용한 순환</b> (modulo)</li>
+            <li>classList로 <b>DOM show/hide</b> 구현</li>
           </ul>
-          <b>사용 기술:</b> HTML, CSS, JavaScript<br />
-          <b>느낀 점/문제 해결:</b>
-          <span style="color: #666"
-            >이미지 index 값을 이용해 슬라이드를 순환시킴. 화면 크기별로 반응형
-            조정이 필요하다고 느낌.</span
-          >
+          <b>핵심 코드:</b>
+          <div class="code-box">
+            function showSlide(idx) { slides.forEach((img, i) =>
+            img.classList.toggle('active', i === idx)); } function prevSlide() {
+            slideIdx = (slideIdx - 1 + slides.length) % slides.length;
+            showSlide(slideIdx); } function nextSlide() { slideIdx = (slideIdx +
+            1) % slides.length; showSlide(slideIdx); }
+          </div>
         </div>
+        <div class="learned" style="color: #f2994a; margin: 8px 0 0 0">
+          🎞️ <b>배열 index와 classList 동작 원리</b>를 실제 UI에서 체감했고,
+          '모듈로 연산'을 활용한 순환이 인상 깊었습니다.
+        </div>
+
+        <!-- 슬라이더 구조는 동일! -->
         <div class="slider-wrap" aria-label="이미지 슬라이더">
           <img
             src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80"
@@ -595,41 +737,64 @@ document.getElementById('todo-form').onsubmit = function (e) { ... }
         </div>
       </div>
 
-      <!-- 캘린더 상세 -->
+      <!-- 캘린더 -->
       <div class="tab-content" id="tab3" role="tabpanel">
         <h2>간단 캘린더</h2>
         <div class="project-desc">
-          <b>설명:</b> 이번 달의 달력을 보여주는 간단한 캘린더입니다.<br />
-          <b>주요 기능:</b>
+          <b>설명:</b> JS <b>Date</b> 객체와 반복문으로 동적으로 달력 생성.<br />
+          <b>활용한 주요 JS:</b>
           <ul class="feature-list">
-            <li>이번 달 날짜 출력</li>
-            <li>오늘 날짜 강조</li>
+            <li><b>Date, new Date()</b>의 조합</li>
+            <li>for문으로 <b>달력 행/열 동적 생성</b></li>
           </ul>
-          <b>사용 기술:</b> HTML, CSS, JavaScript(Date)<br />
-          <b>느낀 점/문제 해결:</b>
-          <span style="color: #666"
-            >date 객체 활용으로 실제 달력 로직을 경험, 요일 맞추기(시작 공백)
-            부분에서 반복문과 날짜 계산을 활용함.</span
-          >
+          <b>핵심 코드:</b>
+          <div class="code-box">
+            function renderCalendar() { const today = new Date(); const year =
+            today.getFullYear(), month = today.getMonth(); const firstDay = new
+            Date(year, month, 1).getDay(); const lastDate = new Date(year, month
+            + 1, 0).getDate(); ... for (let d = 1; d <= lastDate; d++) { const
+            cls = d === today.getDate() ? 'calendar-date today' :
+            'calendar-date'; html += `&lt;div
+            class="${cls}"&gt;${d}&lt;/div&gt;`; } }
+          </div>
         </div>
         <div id="calendar-box"></div>
+        <div class="learned" style="color: #27ae60; margin: 8px 0 0 0">
+          📅 <b>Date 객체와 반복문으로 실제 달력을 만들어보니</b> 날짜 계산/출력
+          과정의 로직 흐름이 명확해졌습니다.
+        </div>
       </div>
 
-      <!-- 퀴즈 상세 -->
+      <!-- 퀴즈 -->
       <div class="tab-content" id="tab4" role="tabpanel">
         <h2>간단 퀴즈</h2>
         <div class="project-desc">
-          <b>설명:</b> 자바스크립트에 관련된 문제를 맞추는 간단한
-          퀴즈게임입니다.<br />
-          <b>주요 기능:</b>
+          <b>설명:</b> JS 기본 개념을 직접 퀴즈로 만들어보는 웹앱.<br />
+          <b>활용한 주요 JS:</b>
           <ul class="feature-list">
-            <li>답 입력 후 정답/오답 출력력</li>
-            <li>....</li>
+            <li>문제와 답 <b>객체 배열</b> 관리</li>
+            <li>정답 비교/피드백</li>
+            <li>문제 순환 로직</li>
           </ul>
-          <b>사용 기술:</b> HTML, CSS, JavaScript<br />
-          <b>느낀 점/문제 해결:</b>
+          <b>핵심 코드:</b>
+          <div class="code-box">
+            function checkAnswer() { const userAns =
+            document.getElementById('quiz-answer').value.trim().toLowerCase();
+            const correctAns = quizData[currentQuiz].a.toLowerCase(); if
+            (userAns === correctAns) {
+            document.getElementById('quiz-result').textContent = '정답입니다!';
+            } else { document.getElementById('quiz-result').textContent =
+            '오답입니다. 정답: ' + quizData[currentQuiz].a; } currentQuiz =
+            (currentQuiz + 1) % quizData.length; setTimeout(loadQuiz, 2000); }
+          </div>
+        </div>
+        <div class="learned" style="color: #eb5757; margin: 8px 0 0 0">
+          🧩 <b>객체 배열로 문제·정답을 관리하는 패턴</b>을 처음 경험하며,
+          실시간 피드백 로직 구현에 성취감을 느꼈습니다.
+        </div>
+
+        <div>
           <div id="quiz-question"></div>
-          <br />
           <label for="quiz-answer">정답 입력</label><br />
           <input
             type="text"
@@ -640,11 +805,9 @@ document.getElementById('todo-form').onsubmit = function (e) { ... }
           <input type="button" value="제출" onclick="checkAnswer()" />
           <div id="quiz-result"></div>
         </div>
-        <div id="quiz-result"></div>
       </div>
     </section>
 
-    <!-- [Footer / SNS] -->
     <footer>
       &copy; 2025 김민석 |
       <a href="https://github.com/ms020704" class="sns-link" target="_blank"
@@ -660,12 +823,12 @@ document.getElementById('todo-form').onsubmit = function (e) { ... }
     </footer>
 
     <script>
-      // [다크모드 토글]
+      // 다크모드 토글
       function toggleDarkMode() {
         document.body.classList.toggle('dark-mode')
       }
 
-      // [탭 전환 함수]
+      // 탭 전환 함수
       function showTab(idx) {
         document.querySelectorAll('.tab-btn').forEach((btn, i) => {
           btn.classList.toggle('active', i === idx)
@@ -676,7 +839,7 @@ document.getElementById('todo-form').onsubmit = function (e) { ... }
         })
       }
 
-      // [프로젝트 요약→탭 바로가기]
+      // 프로젝트 요약→탭 바로가기
       document.querySelectorAll('.project-link').forEach((link) => {
         link.addEventListener('click', function () {
           showTab(Number(this.dataset.tab))
@@ -687,13 +850,11 @@ document.getElementById('todo-form').onsubmit = function (e) { ... }
         })
       })
 
-      // ------------------------ //
-      // [1. To-Do 리스트 기능]
+      // 1. To-Do 리스트
       const todoInput = document.getElementById('todo-input')
       const todoList = document.getElementById('todo-list')
       let todos = JSON.parse(localStorage.getItem('todos') || '[]')
 
-      // 할 일 렌더링 함수
       function renderTodos() {
         todoList.innerHTML = ''
         todos.forEach((todo, i) => {
@@ -701,11 +862,9 @@ document.getElementById('todo-form').onsubmit = function (e) { ... }
           li.textContent = todo.text
           li.className = todo.done ? 'done' : ''
           li.onclick = () => {
-            // 완료/미완료 전환
             todos[i].done = !todos[i].done
             saveTodos()
           }
-          // 삭제 버튼 생성
           const del = document.createElement('button')
           del.textContent = '삭제'
           del.setAttribute('aria-label', '할 일 삭제')
@@ -718,12 +877,10 @@ document.getElementById('todo-form').onsubmit = function (e) { ... }
           todoList.appendChild(li)
         })
       }
-      // 로컬스토리지 저장 + 렌더링
       function saveTodos() {
         localStorage.setItem('todos', JSON.stringify(todos))
         renderTodos()
       }
-      // 폼 이벤트 등록
       document.getElementById('todo-form').onsubmit = function (e) {
         e.preventDefault()
         if (todoInput.value.trim()) {
@@ -734,8 +891,7 @@ document.getElementById('todo-form').onsubmit = function (e) { ... }
       }
       renderTodos()
 
-      // ------------------------ //
-      // [2. 랜덤 명언 생성기]
+      // 2. 랜덤 명언 생성기
       const quotes = [
         '성공은 준비와 기회의 만남이다.',
         '노력은 배신하지 않는다.',
@@ -750,8 +906,7 @@ document.getElementById('todo-form').onsubmit = function (e) { ... }
       }
       showRandomQuote()
 
-      // ------------------------ //
-      // [3. 이미지 슬라이더]
+      // 3. 이미지 슬라이더
       let slideIdx = 0
       const slides = document.querySelectorAll('.slider-img')
       function showSlide(idx) {
@@ -765,9 +920,9 @@ document.getElementById('todo-form').onsubmit = function (e) { ... }
         slideIdx = (slideIdx + 1) % slides.length
         showSlide(slideIdx)
       }
+      showSlide(slideIdx) // 초기 1회 호출
 
-      // ------------------------ //
-      // [4. 캘린더]
+      // 4. 캘린더
       function renderCalendar() {
         const today = new Date()
         const year = today.getFullYear(),
@@ -789,8 +944,7 @@ document.getElementById('todo-form').onsubmit = function (e) { ... }
       }
       renderCalendar()
 
-      // ------------------------ //
-      // [6. JS 퀴즈]
+      // 5. JS 퀴즈
       const quizData = [
         { q: '자바스크립트에서 변수 선언 키워드 3가지는?', a: 'var let const' },
         { q: 'DOM이란 무엇의 약자인가?', a: 'document object model' },
