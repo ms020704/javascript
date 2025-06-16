@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>나의 포트폴리오</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+        margin: 0;
+        background: #f7f7f7;
+        color: #222;
+        line-height: 1.6;
+        transition: background 0.3s, color 0.3s;
+      }
+      nav {
+        background: linear-gradient(90deg, #4158d0, #c850c0 70%);
+        padding: 0 0 0 12px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+      nav li {
+        margin-right: 22px;
+      }
+      nav a {
+        display: block;
+        padding: 16px 8px 14px 8px;
+        color: #fff;
+        font-weight: 500;
+        text-decoration: none;
+        font-size: 1.07em;
+        transition: color 0.2s;
+      }
+      nav a:hover,
+      nav a.active {
+        color: #ffe082;
+        text-decoration: underline;
+      }
+      section {
+        max-width: 700px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 10px #0001;
+        padding: 36px 26px 32px 26px;
+        margin-bottom: 38px;
+      }
+      h1,
+      h2 {
+        color: #4158d0;
+      }
+      .intro {
+        text-align: center;
+      }
+      .profile-img {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        border: 3px solid #eee;
+        object-fit: cover;
+        margin-top: 18px;
+      }
+      .project-grid {
+        display: flex;
+        gap: 22px;
+        flex-wrap: wrap;
+      }
+      .project-card {
+        background: #f3f7fa;
+        border-radius: 12px;
+        padding: 20px 18px 18px 18px;
+        box-shadow: 0 2px 8px #4158d02a;
+        min-width: 260px;
+        max-width: 310px;
+        flex: 1;
+        margin-bottom: 16px;
+        cursor: pointer;
+        position: relative;
+        transition: box-shadow 0.2s;
+      }
+      .project-card:hover {
+        box-shadow: 0 6px 24px #c850c044;
+        background: #f9f7fc;
+      }
+      .project-link {
+        color: #c850c0;
+        text-decoration: underline;
+        margin-right: 4px;
+      }
+      .skills-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        padding: 0;
+        margin: 10px 0 0 0;
+      }
+      .skills-list li {
+        background: #e3e8f0;
+        color: #4158d0;
+        border-radius: 20px;
+        padding: 8px 18px;
+        font-weight: 500;
+        position: relative;
+        list-style: none;
+      }
+      .skill-tip {
+        position: absolute;
+        left: 105%;
+        top: 8px;
+        white-space: nowrap;
+        background: #4158d0;
+        color: #fff;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 0.93em;
+        box-shadow: 0 2px 12px #4158d044;
+      }
+      #today {
+        font-size: 1.02em;
+        color: #c850c0;
+        margin-top: 8px;
+      }
+      #random-quote {
+        margin: 10px 0 0 0;
+        color: #777;
+        font-size: 1.09em;
+        text-align: center;
+      }
+      #copy-msg {
+        color: #4158d0;
+        font-weight: bold;
+        margin-left: 8px;
+      }
+      .dark-btn {
+        position: fixed;
+        top: 18px;
+        right: 30px;
+        z-index: 200;
+        background: #fff;
+        border-radius: 8px;
+        border: none;
+        padding: 6px 12px;
+        font-size: 1.2em;
+        cursor: pointer;
+        box-shadow: 0 1px 6px #2222;
+      }
+      /* 모달 스타일 */
+      .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.42);
+        z-index: 3000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal {
+        background: #fff;
+        border-radius: 14px;
+        padding: 34px 30px 22px 30px;
+        max-width: 390px;
+        width: 90vw;
+        box-shadow: 0 6px 32px #0002;
+        position: relative;
+      }
+      .modal-close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 2em;
+        cursor: pointer;
+        color: #888;
+      }
+      /* 다크모드 */
+      .dark-mode {
+        background: #1d212b;
+        color: #e4e4ec;
+      }
+      .dark-mode section,
+      .dark-mode nav {
+        background: #292c35;
+        color: #e4e4ec;
+      }
+      .dark-mode .project-card {
+        background: #23273b;
+        color: #e4e4ec;
+      }
+      .dark-mode .skills-list li {
+        background: #1b2343;
+        color: #ffe082;
+      }
+      .dark-mode .modal {
+        background: #23273b;
+        color: #fff;
+      }
+      .dark-mode .skill-tip {
+        background: #ffe082;
+        color: #1b2343;
+      }
+      .dark-mode nav a,
+      .dark-mode nav a.active {
+        color: #ffe082;
+      }
+      @media (max-width: 820px) {
+        section {
+          padding: 18px 3vw;
+        }
+      }
+      @media (max-width: 500px) {
+        .project-grid {
+          flex-direction: column;
+        }
+        .project-card {
+          min-width: 100%;
+        }
+      }
+      footer {
+        text-align: center;
+        margin: 40px 0 0;
+        color: #888;
+        font-size: 0.99em;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 다크모드 버튼 -->
+    <button class="dark-btn" id="darkBtn" title="다크모드 전환">🌙</button>
+
+    <!-- 내비게이션 바 -->
+    <nav>
+      <ul>
+        <li><a href="#home" class="active">홈</a></li>
+        <li><a href="#projects">프로젝트</a></li>
+        <li><a href="#skills">스킬</a></li>
+        <li><a href="#contact">연락처</a></li>
+      </ul>
+    </nav>
+
+    <!-- 소개 섹션 -->
+    <section id="home">
+      <div class="intro">
+        <h1>안녕하세요, 김민석입니다</h1>
+        <div id="today"></div>
+        <p>
+          저는 정보보안과 개발을 공부중입니다. 여러 프로젝트를 통해 성장하고
+          있습니다.
+        </p>
+        <div id="random-quote"></div>
+        <img
+          src="https://i.namu.wiki/i/UOtmddzoAUSE2Y4G4MqPq-1waaFgLPgZ01uIFEwSMyGnCytajDaf49CN4TX7X7r1WlFHtZYNHBIzzXYn2yMzafuxJbYXbhUuAvqApCGMPxTAedpLR947SpRxjhWsmsid3TBhbyekD-ffQ4Zkn-xKtg.webp"
+          alt="프로필 사진"
+          class="profile-img"
+        />
+      </div>
+    </section>
+
+    <!-- 프로젝트 섹션 -->
+    <section id="projects">
+      <h2>나의 프로젝트</h2>
+      <div class="project-grid">
+        <div class="project-card" data-project="HCJdemo">
+          <h3>HTML, CSS 실습</h3>
+          <p>HTML과 CSS를 사용한 페이지 제작</p>
+          <a
+            href="https://github.com/ms020704/HCJdemo"
+            class="project-link"
+            target="_blank"
+            >HCJdemo,</a
+          >
+          <a
+            href="https://github.com/ms020704/Assignment001"
+            class="project-link"
+            target="_blank"
+            >Assignment001,</a
+          >
+          <a href="secon.html" class="project-link" target="_blank">SECON,</a>
+          <a href="https://web-rho-five-35.vercel.app/" target="_blank">Web</a>
+        </div>
+        <div class="project-card" data-project="todojs">
+          <h3>자바스크립트 할일앱</h3>
+          <p>JS로 직접 구현한 투두리스트</p>
+          <a
+            href="https://javascript-omega-ecru.vercel.app/"
+            class="project-link"
+            target="_blank"
+            >코드 보기</a
+          >
+        </div>
+
+        <!-- 더 추가 가능 -->
+      </div>
+    </section>
+
+    <!-- 스킬 섹션 -->
+    <section id="skills">
+      <h2>나의 스킬</h2>
+      <ul class="skills-list">
+        <li>HTML5</li>
+        <li>CSS3</li>
+        <li>JavaScript</li>
+        <li>Git/GitHub</li>
+        <li>React</li>
+        <li>정보보안</li>
+      </ul>
+    </section>
+
+    <!-- 연락처 섹션 -->
+    <section id="contact">
+      <h2>연락처</h2>
+      <p>
+        이메일:
+        <a href="mailto:kms02070424@gmail.com" id="copy-email"
+          >kms02070424@gmail.com</a
+        >
+        <span id="copy-msg" style="display: none">복사됨!</span>
+      </p>
+      <p>
+        깃허브:
+        <a href="https://github.com/ms020704" target="_blank"
+          >github.com/ms020704</a
+        >
+      </p>
+    </section>
+
+    <!-- 푸터 -->
+    <footer>
+      <p>&copy; 2025 김민석. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JS 코드 -->
+    <script>
+      // [1] 메뉴 클릭 시 부드러운 스크롤 + active 효과
+      document.querySelectorAll('nav a').forEach((link) => {
+        link.addEventListener('click', function (e) {
+          const href = this.getAttribute('href')
+          if (href.startsWith('#')) {
+            e.preventDefault()
+            document
+              .querySelectorAll('nav a')
+              .forEach((a) => a.classList.remove('active'))
+            this.classList.add('active')
+            document.querySelector(href).scrollIntoView({ behavior: 'smooth' })
+          }
+        })
+      })
+
+      // [2] 프로젝트 카드 클릭 시 모달(팝업) 상세보기
+      document.querySelectorAll('.project-card').forEach((card) => {
+        card.addEventListener('click', function (e) {
+          // 링크 클릭은 모달 무시
+          if (e.target.classList.contains('project-link')) return
+          const project = this.dataset.project || ''
+          showProjectModal(project)
+        })
+      })
+      function showProjectModal(project) {
+        let detail = ''
+        if (project === 'HCJdemo') {
+          detail = `
+          <h2>HTML, CSS 실습 상세</h2>
+          <ul>
+            <li>HTML5 시멘틱 태그, CSS Flex/Grid 연습</li>
+            <li>기본 레이아웃 설계 & 스타일 적용</li>
+            <li>깃허브 페이지와 실제 배포 경험</li>
+          </ul>
+        `
+        } else if (project === 'todojs') {
+          detail = `
+          <h2>자바스크립트 To-Do List</h2>
+          <ul>
+            <li>JS로 직접 구현한 투두리스트</li>
+            <li>로컬스토리지와 DOM 동작 이해</li>
+            <li>코드: <a href="https://github.com/ms020704/Assignment001" target="_blank">코드 보기</a></li>
+          </ul>
+        `
+        } else if (project === 'slider') {
+          detail = `
+          <h2>이미지 슬라이더</h2>
+          <ul>
+            <li>여러 이미지를 버튼 클릭으로 넘기는 슬라이더</li>
+            <li>JS 배열, classList 활용</li>
+          </ul>
+        `
+        } else {
+          detail = '<h2>상세 정보가 없습니다.</h2>'
+        }
+        const modal = document.createElement('div')
+        modal.className = 'modal-backdrop'
+        modal.innerHTML = `<div class="modal">
+        <button class="modal-close" title="닫기">&times;</button>
+        ${detail}
+      </div>`
+        document.body.appendChild(modal)
+        modal.querySelector('.modal-close').onclick = () => modal.remove()
+        modal.onclick = (e) => {
+          if (e.target === modal) modal.remove()
+        }
+      }
+
+      // [3] 스킬 마우스 오버 시 설명(툴팁) 표시
+      const skillDesc = {
+        HTML5: '웹 페이지의 뼈대를 만드는 언어',
+        CSS3: '스타일, 레이아웃 구현',
+        JavaScript: '동적 기능, 사용자 상호작용',
+        'Git/GitHub': '버전관리, 협업의 기본',
+        React: '최신 프론트엔드 라이브러리',
+        정보보안: '데이터와 시스템을 안전하게!',
+      }
+      document.querySelectorAll('.skills-list li').forEach((li) => {
+        li.addEventListener('mouseenter', function () {
+          const desc = skillDesc[this.textContent.trim()]
+          if (desc && !this.querySelector('.skill-tip')) {
+            const tip = document.createElement('div')
+            tip.className = 'skill-tip'
+            tip.textContent = desc
+            this.appendChild(tip)
+          }
+        })
+        li.addEventListener('mouseleave', function () {
+          const tip = this.querySelector('.skill-tip')
+          if (tip) tip.remove()
+        })
+      })
+
+      // [4] 이메일 클릭시 복사
+      document.getElementById('copy-email').onclick = function (e) {
+        e.preventDefault()
+        navigator.clipboard.writeText(this.textContent)
+        const msg = document.getElementById('copy-msg')
+        msg.style.display = 'inline'
+        setTimeout(() => {
+          msg.style.display = 'none'
+        }, 1000)
+      }
+
+      // [5] 다크모드 토글
+      document.getElementById('darkBtn').onclick = function () {
+        document.body.classList.toggle('dark-mode')
+        this.textContent = document.body.classList.contains('dark-mode')
+          ? '☀️'
+          : '🌙'
+      }
+
+      // [6] 오늘 날짜 출력
+      function printToday() {
+        const today = new Date()
+        const txt =
+          today.getFullYear() +
+          '년 ' +
+          (today.getMonth() + 1) +
+          '월 ' +
+          today.getDate() +
+          '일 (' +
+          '일월화수목금토'.charAt(today.getDay()) +
+          ')'
+        document.getElementById('today').textContent = '오늘: ' + txt
+      }
+      printToday()
+
+      // [7] 랜덤 명언 한 줄 표시
+      const quotes = [
+        '성공은 준비와 기회의 만남이다.',
+        '노력은 배신하지 않는다.',
+        '오늘 걷지 않으면 내일은 뛰어야 한다.',
+        '포기하지 마라, 기적은 가까이에 있다.',
+        '실패는 성공의 어머니이다.',
+        '작은 실행이 큰 변화를 만든다.',
+        '모든 성취는 한 번의 결심에서 시작된다.',
+      ]
+      function showRandomQuote() {
+        const idx = Math.floor(Math.random() * quotes.length)
+        document.getElementById('random-quote').textContent =
+          '💬 ' + quotes[idx]
+      }
+      showRandomQuote()
+    </script>
+  </body>
+</html>
